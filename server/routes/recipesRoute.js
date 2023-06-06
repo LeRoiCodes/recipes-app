@@ -49,6 +49,30 @@ router.put("/save", async (req, res) => {
     }
 });
 
+router.get("/saved/ids", async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.body.userId)
+        res.json({
+            savedRecipes: user?.savedRecipes
+        })
+    } catch (error) {
+        res.json(error)
+    }
+})
+
+router.get("/saved", async (req,res) => {
+    try {
+        const user = await UserModel.findById(req.body.userId)
+        const savedRecipes = await RecipeModel.find({
+            _id: {$in: user.savedRecipes}
+        })
+        res.json({
+            savedRecipes
+        })
+    } catch (error) {
+        res.json(error)
+    }
+})
 
 const recipesRouter = router
 export default recipesRouter

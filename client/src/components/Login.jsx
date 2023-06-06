@@ -24,7 +24,7 @@ function Login() {
      });
 
       setCookies("access_token", res.data.token);
-      window.localStorage.setItem("userID", res.data.userId)
+      window.localStorage.setItem("userId", res.data.userId)
       navigate("/")
     } catch (err){
       console.error(err)

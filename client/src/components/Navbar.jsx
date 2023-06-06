@@ -10,7 +10,7 @@ function Navbar() {
   // log out of website
   const logout = () => {
     setCookies("access_tokem", "");
-    window.localStorage.removeItem("userID");
+    window.localStorage.removeItem("userId");
     navigate("/auth")
   }
   return (
