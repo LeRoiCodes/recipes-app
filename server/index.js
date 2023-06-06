@@ -3,7 +3,8 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 
 //import user routes
-import usersRoute from "./routes/usersRoute.js"
+import usersRouter from "./routes/usersRoute.js"
+import recipesRouter from "./routes/recipesRoute.js"
 
 //initializing express
 const app = express();
@@ -13,7 +14,8 @@ app.use(express.json());
 app.use(cors());
 
 //using user route
-app.use("/auth", usersRoute);
+app.use("/auth", usersRouter);
+app.use("/recipes", recipesRouter)
 
 // mongodb connection string
 //mongoose.connect(
