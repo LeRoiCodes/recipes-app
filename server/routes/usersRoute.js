@@ -1,13 +1,13 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { userModel } from '../models/Users.js';
+import UserModel from '../models/Users.js';
 
 
 const router = express.Router();
 
 router.get("/users", async (req, res) => {
-    const users = await userModel.find();
+    const users = await UserModel.find();
     
     res.json({
         message:  "here are all the users",
@@ -18,7 +18,7 @@ router.get("/users", async (req, res) => {
 router.post("/register", async (req, res) => {
     const { username, password } = req.body;
 
-    const user = await userModel.findOne({ username });
+    const user = await UserModel.findOne({ username });
 
     if (user) {
         return res.json({
@@ -29,7 +29,7 @@ router.post("/register", async (req, res) => {
     //hashing password
     const hashedPassword = await bcrypt.hash(password, 10)
     
-    const newUser = new userModel({username, password: hashedPassword});
+    const newUser = new UserModel({username, password: hashedPassword});
     await newUser.save();
 
     res.json({
@@ -41,7 +41,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
     const {username, password} = req.body;
 
-    const user = await userModel.findOne({ username });
+    const user = await UserModel.findOne({ username });
 
     if(!user) {
         return res.json({
