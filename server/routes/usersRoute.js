@@ -1,10 +1,19 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { userModel } from '../models/Users';
+import { userModel } from '../models/Users.js';
 
 
 const router = express.Router();
+
+router.get("/users", async (req, res) => {
+    const users = await userModel.find();
+    
+    res.json({
+        message:  "here are all the users",
+        users
+    })
+})
 
 router.post("/register", async (req, res) => {
     const { username, password } = req.body;
@@ -54,4 +63,5 @@ router.post("/login", async (req, res) => {
     })
 });
 
-export default usersRoute = router;
+const usersRoute = router
+export default usersRoute ;
