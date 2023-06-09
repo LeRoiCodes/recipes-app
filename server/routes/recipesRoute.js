@@ -2,6 +2,7 @@ import RecipeModel from "../models/Recipes.js";
 import express from "express"
 import mongoose from "mongoose";
 import UserModel from "../models/Users.js";
+import { verifyToken } from "../middlewares/auth.js";
 
 
 const router = express.Router();
@@ -17,7 +18,7 @@ router.get("/", async (req, res) => {
         res.json(error)
     }
 });
-router.post("/create", async (req, res) => {
+router.post("/create", verifyToken, async (req, res) => {
 
     const recipe = new RecipeModel(req.body)
     try {
@@ -29,7 +30,7 @@ router.post("/create", async (req, res) => {
         res.json(error)
     }
 });
-router.put("/save", async (req, res) => {
+router.put("/save", verifyToken, async (req, res) => {
 
     
 
@@ -49,9 +50,9 @@ router.put("/save", async (req, res) => {
     }
 });
 
-router.get("/saved/ids", async (req, res) => {
+router.get("/saved/ids/:userId", verifyToken, async (req, res) => {
     try {
-        const user = await UserModel.findById(req.body.userId)
+        const user = await UserModel.findById(req.params.userId)
         res.json({
             savedRecipes: user?.savedRecipes
         })
@@ -60,9 +61,9 @@ router.get("/saved/ids", async (req, res) => {
     }
 })
 
-router.get("/saved", async (req,res) => {
+router.get("/saved/:userId", verifyToken, async (req,res) => {
     try {
-        const user = await UserModel.findById(req.body.userId)
+        const user = await UserModel.findById(req.params.userId)
         const savedRecipes = await RecipeModel.find({
             _id: {$in: user.savedRecipes}
         })

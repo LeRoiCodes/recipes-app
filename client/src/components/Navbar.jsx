@@ -17,12 +17,15 @@ function Navbar() {
     <div className='navbar'>
         <Link to="/"> Home</Link>
         <Link to="/create"> Create Recipe</Link>
-        <Link to="/save"> Saved Recipes</Link>
+        {/* <Link to="/save"> Saved Recipes</Link> */}
         {
           !cookies.access_tokem ? (
             <Link to="/auth"> Login/Register</Link>
           ) : (
+            <>
+            <Link to="/save"> Saved Recipes</Link>
             <button onClick={logout}> Logout </button>
+            </>
           )
         }
         
